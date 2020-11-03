@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int lexicographic_sort(const char* a, const char* b)
+{
+    int ret = 0; 
+
+    ret = strcmp(a, b);
+
+    return ret;
+}
+
+int lexicographic_sort_reverse(const char* a, const char* b)
+{
+    int ret = 0;
+
+    ret = strcmp(b, a);
+
+    return ret;
+}
+
+#define CHARS   26
+int distinct_chars(const char *a)
+{
+    int ret = 0;
+
+    int dist = 0;
+    int chars[CHARS] = {0};
+
+    while (*a != '\0')
+    {
+        int chr = (*a++) - 'a';
+        if (chr < CHARS)
+            chars[chr]++;
+    }
+    
+    for (int i = 0; i < CHARS; i++)
+    {
+        if (chars[i])
+        {
+            dist++;
+        }
+        ret = dist;
+    }
+
+    return ret;
+}
+
+int sort_by_number_of_distinct_characters(const char* a, const char* b)
+{   
+    int ret = 0;
+
+    int res = distinct_chars(a) - distinct_chars(b);
+    ret = (res) ? res : lexicographic_sort(a, b);
+
+    return ret;
+}
+
+int sort_by_length(const char* a, const char* b)
+{
+    int ret = 0;
+
+    int res = strlen(a) - strlen(b);
+    ret = (res) ? res : lexicographic_sort(a, b);
+
+    return ret;
+}
+
+
+void string_sort(char** arr, const int len,int (*cmp_func)(const char* a, const char* b)){
+    int sorted = 0;
+    int top = len - 1;
+    while (!sorted) {
+        sorted = 1;
+        for (int i = 0; i < top; i++)
+        {
+            if (cmp_func(arr[i], arr[i + 1]) > 0)
+            {
+                char *tmp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = tmp;
+                sorted = 0;
+            }
+        }
+        top--;
+    }
+}
